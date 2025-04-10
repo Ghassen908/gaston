@@ -12,23 +12,30 @@ import PhotoCollection from './PhotoCollection'
 import DarkModeToggle from './DarkModeToggle'; // Assuming this component is saved in the same folder
 import PhotoThumbnail from './PhotoThumbnail'
 import AppointmentCard from './AppointmentCard'
+import profileImage from './image/profil.jpg';
+
+
 export default function MyAccountPage() {
   return (
     <div className="container mx-auto py-10 px-4 md:px-6">
       <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
-        <div className="flex items-center gap-4">
-          <Avatar className="h-20 w-20 border-2 border-primary">
-            <AvatarImage src="/placeholder.svg" alt="Photo de profil" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <div>
-            <h1 className="text-3xl font-bold">Gaston</h1>
-            <p className="text-muted-foreground">Client depuis Janvier 2023</p>
-            <div className="flex items-center gap-2 mt-1">
-              <Badge variant="secondary">Client Premium</Badge>
-            </div>
-          </div>
-        </div>
+      <div className="flex items-center gap-4">
+    <div className="h-24 w-24 overflow-hidden rounded-full border-2 border-primary">
+    <img
+      src={profileImage}
+      alt="Photo de profil"
+      className="object-cover h-full w-full"
+    />
+    </div>
+    <div>
+      <h1 className="text-3xl font-bold">Ghassen Brahim</h1>
+      <p className="text-muted-foreground">Client depuis Janvier 2019</p>
+      <div className="flex items-center gap-2 mt-1">
+        <Badge variant="secondary">Client Premium</Badge>
+      </div>
+  </div>
+</div>
+
         <div className="flex items-center gap-4">
           {/* Add the Dark Mode Toggle button here */}
           <DarkModeToggle />
@@ -216,7 +223,3 @@ export default function MyAccountPage() {
     </div>
   )
 }
-
-
-
-

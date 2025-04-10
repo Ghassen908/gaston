@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Card } from '@/components/ui/card'
 export default function PhotoCollection({ title, date, imageCount, thumbnail }) {
     return (
-      <Link to="#" className="group">
+      <Link to="album1" className="group">
         <Card className="overflow-hidden transition-all hover:shadow-md">
           <div className="relative aspect-[4/3]">
             <img

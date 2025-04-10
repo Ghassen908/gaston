@@ -1,11 +1,12 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import { Camera, Heart, Download, Share2, Eye } from 'lucide-react'
+
 export default function PhotoThumbnail({ isFavorite = false }) {
     return (
       <div className="group relative aspect-square overflow-hidden rounded-md">
         <img
-          src="/placeholder.svg"
+          src={""}
           alt="Photo"
           className="w-full h-full object-cover transition-transform group-hover:scale-105"
         />
