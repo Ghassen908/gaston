@@ -1,225 +1,180 @@
-import React from 'react'
-import { Camera, Calendar, Settings, LogOut, Heart} from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Separator } from '@/components/ui/separator'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
-import PhotoCollection from './PhotoCollection'
-// Dark Mode Toggle Component
-import DarkModeToggle from './DarkModeToggle'; // Assuming this component is saved in the same folder
-import PhotoThumbnail from './PhotoThumbnail'
-import AppointmentCard from './AppointmentCard'
+import React, { useState, useEffect } from 'react';
+import { Camera, Heart, Settings, LogOut, Share2, Download, ZoomIn, LetterText, FilePen, User2, Send } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import profileImage from './image/profil.jpg';
+import logoImage from './image/logo.png'; // Correct logo image import
 
+// Assuming you have a PhotoThumbnail component, here's a basic implementation:
+function PhotoThumbnail({ src = "/placeholder.svg" }) {
+  const [liked, setLiked] = useState(false);
+
+  // Toggle like status
+  const toggleLike = () => {
+    setLiked(!liked);
+  };
+
+  // Handle image enlarge (you can implement a modal for enlargement later)
+  const enlargeImage = () => {
+    alert("Image agrandie!");
+  };
+
+  // Handle download (you can implement actual download functionality)
+  const downloadImage = () => {
+    alert("Téléchargement de l'image!");
+  };
+
+  // Handle share functionality (you can implement actual sharing logic)
+  const shareImage = () => {
+    alert("Partager l'image!");
+  };
+
+  return (
+    <div className="relative w-full" style={{ aspectRatio: '1' }}>
+      <img
+        src={src}
+        alt="Thumbnail"
+        className="object-cover w-full h-full"
+      />
+      {/* Image options below */}
+      <div className="absolute bottom-2 left-2 right-2 flex justify-between text-black p-2 rounded-lg">
+        <button onClick={enlargeImage} className="flex items-center gap-1">
+          <ZoomIn className="h-5 w-5" />
+        </button>
+        <button onClick={toggleLike} className="flex items-center gap-1">
+          <Heart className={`h-5 w-5 ${liked ? 'text-red-500' : 'text-black'}`} />
+          <span>{liked}</span>
+        </button>
+        <button onClick={shareImage} className="flex items-center gap-1">
+          <Share2 className="h-5 w-5" />
+        </button>
+        <button onClick={downloadImage} className="flex items-center gap-1">
+          <Download className="h-5 w-5" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function DarkModeToggle({ toggleTheme }) {
+  return (
+    <Button onClick={toggleTheme} variant="outline" className="flex items-center gap-2">
+      <span>🌙</span>
+    </Button>
+  );
+}
 
 export default function MyAccountPage() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Check for saved theme preference in localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('darkMode') === 'true';
+    setDarkMode(savedTheme);
+  }, []);
+
+  // Toggle dark mode and save to localStorage
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+    localStorage.setItem('darkMode', !darkMode);
+  };
+
+  // Apply dark mode class to the body element
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, [darkMode]);
+
   return (
-    <div className="container mx-auto py-10 px-4 md:px-6">
-      <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
-      <div className="flex items-center gap-4">
-    <div className="h-24 w-24 overflow-hidden rounded-full border-2 border-primary">
-    <img
-      src={profileImage}
-      alt="Photo de profil"
-      className="object-cover h-full w-full"
-    />
-    </div>
-    <div>
-      <h1 className="text-3xl font-bold">Ghassen Brahim</h1>
-      <p className="text-muted-foreground">Client depuis Janvier 2019</p>
-      <div className="flex items-center gap-2 mt-1">
-        <Badge variant="secondary">Client Premium</Badge>
-      </div>
-  </div>
-</div>
+    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      {/* Dashboard Layout */}
+      <div className="flex">
 
-        <div className="flex items-center gap-4">
-          {/* Add the Dark Mode Toggle button here */}
-          <DarkModeToggle />
-          <Button variant="outline" className="gap-2">
-            <LogOut className="h-4 w-4" />
-            Déconnexion
-          </Button>
-        </div>
-      </div>
-
-      <Tabs defaultValue="photos" className="w-full">
-        <TabsList className="grid grid-cols-3 md:grid-cols-4 lg:w-[600px]">
-          <TabsTrigger value="photos" className="flex items-center gap-2">
-            <Camera className="h-4 w-4" />
-            <span className="hidden sm:inline">Mes Photos</span>
-          </TabsTrigger>
-          <TabsTrigger value="appointments" className="flex items-center gap-2">
-            <Calendar className="h-4 w-4" />
-            <span className="hidden sm:inline">Rendez-vous</span>
-          </TabsTrigger>
-          <TabsTrigger value="favorites" className="flex items-center gap-2">
-            <Heart className="h-4 w-4" />
-            <span className="hidden sm:inline">Favoris</span>
-          </TabsTrigger>
-          <TabsTrigger value="settings" className="flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            <span className="hidden sm:inline">Paramètres</span>
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="photos" className="mt-6">
-          <h2 className="text-2xl font-semibold mb-4">Mes Collections</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <PhotoCollection
-              title="Séance Portrait - Mars 2024"
-              date="15 Mars 2024"
-              imageCount={24}
-              thumbnail="/placeholder.svg"
-            />
-            <PhotoCollection
-              title="Mariage Famille Martin"
-              date="5 Février 2024"
-              imageCount={156}
-              thumbnail="/placeholder.svg"
-            />
-            <PhotoCollection
-              title="Photos de Famille"
-              date="20 Décembre 2023"
-              imageCount={42}
-              thumbnail="/placeholder.svg"
-            />
+        {/* Left Sidebar */}
+        <div className={`w-1/5 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg p-6`}>
+          <div className="flex flex-col items-center justify-center ">
+            <div className="h-24 w-24 overflow-hidden rounded-full border-2 border-gray-300 mb-4">
+              <img
+                src={profileImage}
+                alt="Profile"
+                className="object-cover w-full h-full"
+              />
+            </div>
+            <h2 className={`text-xl  font-bold ${darkMode ? 'text-white' : 'text-black'}`}>Ghassen Brahim</h2>
+            <p className={`text-gray-500 ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>Client depuis Janvier 2019</p>
+            <div className="mt-2">
+              <Badge variant="secondary">Client Premium</Badge>
+            </div>
           </div>
 
-          <h2 className="text-2xl font-semibold mt-10 mb-4">Photos Récentes</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+          <div className="mt-8 flex flex-col">
+            <ul className="space-y-1 text-lg">
+              <li className={`flex items-center justify-center  gap-3 hover:bg-gray-100 p-2 rounded ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} cursor-pointer`}>
+                <User2 className="h-5 w-5" />
+                <span>Profile</span>
+              </li>
+              <li className={`flex items-center justify-center  gap-3 hover:bg-gray-100 p-2 rounded ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} cursor-pointer`}>
+                <Camera className="h-5 w-5" />
+                <span>Photos</span>
+              </li>
+              <li className={`flex items-center justify-center  gap-3 hover:bg-gray-100 p-2 rounded ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} cursor-pointer`}>
+                <Heart className="h-5 w-5" />
+                <span>Favoris</span>
+              </li>
+              <li className={`flex items-center justify-center  gap-3 hover:bg-gray-100 p-2 rounded ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} cursor-pointer`}>
+                <Send className="h-5 w-5" />
+                <span>Courrier</span>
+              </li>
+              <li className={`flex items-center justify-center  gap-3 hover:bg-gray-100 p-2 rounded ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} cursor-pointer`}>
+                <FilePen className="h-5 w-5" />
+                <span>Contrat</span>
+              </li>
+              <li className={`flex items-center justify-center  gap-3 hover:bg-gray-100 p-2 rounded ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} cursor-pointer`}>
+                <Settings className="h-5 w-5" />
+                <span>Paramètres</span>
+              </li>
+              <li className={`flex items-center justify-center  gap-3 hover:bg-gray-100 p-2 rounded ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} cursor-pointer`}>
+                <LogOut className="h-5 w-5" />
+                <span>Déconnexion</span>
+              </li>
+              {/* Corrected logo image section */}
+              <li className={`flex items-center justify-center   cursor-pointer`}>
+                <img
+                  src={logoImage} // Correct usage of the logo image
+                  alt="logo"
+                  className="w-50 h-50 object-contain" // Proper size and responsive styling
+                />
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Main Content Area */}
+        <div className={`flex-1 p-8 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+          {/* Header */}
+          <div className="flex justify-between items-center mb-8">
+            <h2 className={`text-3xl font-semibold ${darkMode ? 'text-white' : 'text-black'}`}>Mes Photos</h2>
+            <DarkModeToggle toggleTheme={toggleTheme} />
+          </div>
+
+          {/* Photos Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {[...Array(12)].map((_, i) => (
               <PhotoThumbnail key={i} />
             ))}
           </div>
-          <div className="mt-6 text-center">
-            <Button variant="outline">Voir toutes mes photos</Button>
-          </div>
-        </TabsContent>
 
-        <TabsContent value="appointments" className="mt-6">
-          <h2 className="text-2xl font-semibold mb-4">Mes Rendez-vous</h2>
-          <div className="space-y-4">
-            <AppointmentCard
-              title="Séance Photo de Famille"
-              date="15 Avril 2024"
-              time="14:00 - 16:00"
-              location="Studio Central, Paris"
-              status="upcoming"
-            />
-            <AppointmentCard
-              title="Séance Portrait Professionnel"
-              date="5 Mars 2024"
-              time="10:00 - 11:30"
-              location="Studio Central, Paris"
-              status="completed"
-            />
-            <AppointmentCard
-              title="Shooting Extérieur"
-              date="20 Janvier 2024"
-              time="15:00 - 17:00"
-              location="Parc des Buttes-Chaumont, Paris"
-              status="completed"
-            />
+          {/* Bottom Nav (optional) */}
+          <div className="mt-8 flex justify-between border-t pt-4">
+            <Button variant="outline" className="w-full py-2">
+              Voir toutes mes photos
+            </Button>
           </div>
-          <div className="mt-6">
-            <Button>Réserver une nouvelle séance</Button>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="favorites" className="mt-6">
-          <h2 className="text-2xl font-semibold mb-4">Mes Photos Favorites</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <PhotoThumbnail key={i} isFavorite={true} />
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="settings" className="mt-6">
-          <div className="max-w-2xl">
-            <h2 className="text-2xl font-semibold mb-4">Paramètres du Compte</h2>
-            <Card>
-              <CardContent className="pt-6">
-                <form className="space-y-6">
-                  <div className="grid gap-2">
-                    <label htmlFor="name" className="font-medium">
-                      Nom complet
-                    </label>
-                    <input id="name" type="text" defaultValue="Claire Dupont" className="border rounded-md p-2" />
-                  </div>
-                  <div className="grid gap-2">
-                    <label htmlFor="email" className="font-medium">
-                      Email
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      defaultValue="claire.dupont@example.com"
-                      className="border rounded-md p-2"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <label htmlFor="phone" className="font-medium">
-                      Téléphone
-                    </label>
-                    <input id="phone" type="tel" defaultValue="+33 6 12 34 56 78" className="border rounded-md p-2" />
-                  </div>
-                  <div className="grid gap-2">
-                    <label htmlFor="address" className="font-medium">
-                      Adresse
-                    </label>
-                    <textarea
-                      id="address"
-                      defaultValue="123 Rue de Paris, 75001 Paris, France"
-                      className="border rounded-md p-2 min-h-[80px]"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <label htmlFor="notifications" className="font-medium">
-                      Préférences de notification
-                    </label>
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <input id="email-notif" type="checkbox" defaultChecked />
-                        <label htmlFor="email-notif">Recevoir des notifications par email</label>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <input id="sms-notif" type="checkbox" defaultChecked />
-                        <label htmlFor="sms-notif">Recevoir des notifications par SMS</label>
-                      </div>
-                    </div>
-                  </div>
-                  <Separator />
-                  <div className="flex justify-end">
-                    <Button>Enregistrer les modifications</Button>
-                  </div>
-                </form>
-              </CardContent>
-            </Card>
-
-            <h2 className="text-2xl font-semibold mt-10 mb-4">Sécurité</h2>
-            <Card>
-              <CardContent className="pt-6">
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="font-medium mb-2">Changer le mot de passe</h3>
-                    <Button variant="outline">Modifier le mot de passe</Button>
-                  </div>
-                  <Separator />
-                  <div>
-                    <h3 className="font-medium mb-2">Authentification à deux facteurs</h3>
-                    <Button variant="outline">Configurer l'authentification à deux facteurs</Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-      </Tabs>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
