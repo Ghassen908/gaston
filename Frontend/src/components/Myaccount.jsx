@@ -22,7 +22,7 @@ export default function MyAccountPage() {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div>
-            <h1 className="text-3xl font-bold">Claire Dupont</h1>
+            <h1 className="text-3xl font-bold">Gaston</h1>
             <p className="text-muted-foreground">Client depuis Janvier 2023</p>
             <div className="flex items-center gap-2 mt-1">
               <Badge variant="secondary">Client Premium</Badge>
