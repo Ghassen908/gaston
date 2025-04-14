@@ -1,10 +1,12 @@
 import DarkModeToggle from './components/DarkModeToggle';
-import MyAccountPage from './components/Myaccount';
-import Sginup from './components/Sginup'
+import MyAccountPage from './pages/Myaccount';
+import Sginup from './components/Sginup';
 import GalleryPage from './components/Gallery';
-import SignInPage from './components/signin';
-import Album1 from './components/album1'
+import SignInPage from './components/Signin';
+import Album1 from './components/Album1';
+import Dashboard from './components/Dashbord';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 function App() {
   return (
     <Router>
@@ -14,9 +16,9 @@ function App() {
         <Route path="/mypage" element={<MyAccountPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/album1" element={<Album1 />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
-    
   );
 }
 

@@ -2,16 +2,16 @@ import React from 'react'
 import { Button } from '@/components/ui/button'
 import DarkModeToggle from './DarkModeToggle';
 // Importation manuelle des images
-import Image1 from './image/image1.jpg'
-import Image2 from './image/image2.jpg'
-import Image3 from './image/image3.jpg'
-import Image4 from './image/image4.jpg'
-import Image5 from './image/image5.jpg'
-import Image6 from './image/image6.jpg'
-import Image7 from './image/image7.jpg'
-import Image8 from './image/image8.jpg'
-import Image9 from './image/image9.jpg'
-import Image10 from './image/image10.jpg'
+import Image1 from '../assets/image/image1.jpg'
+import Image2 from '../assets/image/image2.jpg'
+import Image3 from '../assets/image/image3.jpg'
+import Image4 from '../assets/image/image4.jpg'
+import Image5 from '../assets/image/image5.jpg'
+import Image6 from '../assets/image/image6.jpg'
+import Image7 from '../assets/image/image7.jpg'
+import Image8 from '../assets/image/image8.jpg'
+import Image9 from '../assets/image/image9.jpg'
+import Image10 from '../assets/image/image10.jpg'
 
 export default function Album1() {
   const photos = [Image1, Image2, Image3, Image4, Image5, Image6, Image7, Image8, Image9, Image10]
