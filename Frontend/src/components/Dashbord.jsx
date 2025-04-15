@@ -1,10 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Camera, Heart, Settings, LogOut, FilePen, User2, Send, Calendar } from 'lucide-react';
 import { Badge } from "../components/ui/badge";
 import profileImage from "../assets/image/profil.jpg";
 import logoImage from '../assets/image/logo.png';
+import GalleryPage from './Gallery';
+export default function Dashboard({ darkMode, onChangeView }) {
+  const navigate = useNavigate(); // Initialize useNavigate
 
-export default function Dashboard({ darkMode, onChangeView, onLogout }) {
   const handleSidebarClick = (label) => {
     switch (label) {
       case 'Rendez-Vous':
@@ -19,8 +22,8 @@ export default function Dashboard({ darkMode, onChangeView, onLogout }) {
       case 'Paramètres':
         onChangeView('ParametreCompte');
         break;
-      case 'Déconnexion':
-        onLogout();  // Call logout when Déconnexion is clicked
+      case 'Déconnexion':   
+        navigate('/GalleryPage'); // Navigate instead of calling onLogout
         break;
       default:
         break;
